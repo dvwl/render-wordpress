@@ -8,7 +8,7 @@ services:
   disk:
     name: wordpress
     mountPath: /var/www/html
-    sizeGB: 20
+    sizeGB: 10
   envVars:
   - key: WORDPRESS_DB_HOST
     fromService:
@@ -25,14 +25,22 @@ services:
       name: mysql-wordpress
       type: pserv
       envVarKey: MYSQL_USER
+  - key: PHP_INI_SCAN_DIR
+    value: :/var/www/html/wp-content
   - key: WORDPRESS_DB_PASSWORD
     fromService:
       name: mysql-wordpress
       type: pserv
       envVarKey: MYSQL_PASSWORD
+  - key: WORDPRESS_CONFIG_EXTRA
+    value: |
+      define('FS_METHOD', 'direct');
+      define('WP_FS__SKIP_CONNECT_EVERYWHERE', true);
+  - key: TAR_OPTIONS
+    value: --no-same-owner --no-same-permissions
 - type: pserv
   name: mysql-wordpress
-  repo: https://github.com/render-examples/mysql.git
+  repo: https://github.com/dvwl/render-mysql.git
   env: docker
   region: singapore
   plan: starter
@@ -40,7 +48,7 @@ services:
   disk:
     name: mysql-wordpress
     mountPath: /var/lib/mysql
-    sizeGB: 20
+    sizeGB: 10
   envVars:
   - key: MYSQL_DATABASE
     value: mysql
