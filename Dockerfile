@@ -6,4 +6,7 @@ RUN apt-get update && apt-get install -y magic-wormhole
 
 RUN usermod -s /bin/bash www-data
 RUN chown www-data:www-data /var/www
+
+COPY user.ini /usr/local/etc/php/conf.d/wordpress-custom.ini
+
 USER www-data:www-data
