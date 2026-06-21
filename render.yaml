@@ -25,8 +25,6 @@ services:
       name: mysql-wordpress
       type: pserv
       envVarKey: MYSQL_USER
-  - key: PHP_INI_SCAN_DIR
-    value: :/var/www/html/wp-content
   - key: WORDPRESS_DB_PASSWORD
     fromService:
       name: mysql-wordpress
